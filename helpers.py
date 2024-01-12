@@ -3,7 +3,7 @@ import emoji
 import pandas as pd
 
 
-df = pd.read_csv('data/ar_lexicon.txt', sep='    ')
+df = pd.read_csv('data/ar_lexicon.txt', sep=',')
 emj_scores = pd.read_csv("data/emojis_sentiment.csv")
 
 df.columns = ["word", "score"]
