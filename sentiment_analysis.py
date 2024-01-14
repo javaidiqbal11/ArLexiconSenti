@@ -2,7 +2,8 @@ import pandas as pd
 from sklearn import metrics
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
-
+import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_curve, average_precision_score
 from helpers import tweet_score
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -80,7 +81,7 @@ roc_auc = auc(fpr, tpr)
 plt.figure(figsize=(8, 6))  # Larger figure for better visibility
 
 # Plot ROC curve with a smooth, visually appealing line
-plt.plot(fpr, tpr, color='darkorange', linewidth=2, label='ROC curve (area = %0.2f)' % roc_auc)
+plt.plot(fpr, tpr, color='darkorange', linewidth=3, label='ROC curve (area = %0.2f)' % roc_auc)
 
 # Diagonal line for random classifier
 plt.plot([0, 1], [0, 1], color='navy', linestyle='--', label='Lexicon classifier')
@@ -97,4 +98,29 @@ plt.grid(True, linestyle='--', alpha=0.2)  # Add a subtle grid
 # Enhanced visual appeal with gridlines and shaded area
 plt.fill_between(fpr, tpr, color='lightblue', alpha=0.2)
 plt.savefig("./roc_curve.png")
+plt.close()
 
+
+# Replace with your actual model predictions and true labels
+# Calculate precision, recall, and average precision
+precision, recall, _ = precision_recall_curve(y_true, y_pred)
+average_precision = average_precision_score(y_true, y_pred)
+
+# Create the plot
+plt.figure(figsize=(8, 6))  # Larger figure for better visibility
+
+# Plot PR curve with a visually appealing line
+plt.plot(recall, precision, color='forestgreen', linewidth=3, label='PR curve (AP = %0.2f)' % average_precision)
+
+# Customize plot elements for a polished look
+plt.xlim([-0.05, 1.05])  # Add margins for visual clarity
+plt.ylim([-0.05, 1.05])
+plt.xlabel('Recall', fontsize=14)
+plt.ylabel('Precision', fontsize=14)
+plt.title('Precision-Recall Curve', fontsize=16)
+plt.legend(loc="upper right", fontsize=12)
+plt.grid(True, linestyle='--', alpha=0.2)  # Add a subtle grid
+
+# Enhanced visual appeal with gridlines and shaded area
+plt.fill_between(recall, precision, color='lightgreen', alpha=0.2)
+plt.savefig("./precision_recall.png")
