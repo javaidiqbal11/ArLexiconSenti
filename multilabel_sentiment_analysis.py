@@ -56,7 +56,7 @@ RocCurveDisplay.from_predictions(
 plt.axis("square")
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
-plt.title("One-vs-Rest ROC curves:\nPositive vs (neutral & negative) sentiment)")
+plt.title(f"One-vs-Rest ROC curves:\n{class_of_interest} vs (neutral & negative) sentiment)")
 plt.legend()
 # plt.show()
 plt.savefig(f"graphs/multilabel_{class_id}_roc_curve.png")
