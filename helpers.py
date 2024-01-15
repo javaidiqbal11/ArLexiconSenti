@@ -12,6 +12,57 @@ for word, score in zip(df.word.values.tolist(), df.score.values.tolist()):
     lexicons[word] = score
 
 
+def label2id(line: str):
+    if line == "positive":
+        return 1
+    elif line == "negative":
+        return -1
+    else:
+        return 0
+
+def id2label(line: str) -> str:
+    if line == 1:
+        return "positive"
+    elif line == -1:
+        return "negative"
+    else:
+        return "neutral"
+
+
+def pad_zeros(data, max_len):
+    """
+    Pads a list of lists with zeros to a maximum length.
+
+    Args:
+    data: A list of lists, where each sublist may have a different length.
+    max_len: The maximum length to pad the sublists to.
+
+    Returns:
+    A new list of lists, where each sublist is padded with zeros to the
+    specified maximum length.
+    """
+    padded_data = []
+
+    for sublist in data:
+        padded_sublist = sublist + [0] * (max_len - len(sublist))
+        padded_data.append(padded_sublist)
+    return padded_data
+
+
+def get_word_score(word: str) -> float:
+    if word in lexicons:
+        return lexicons[word]
+
+    return 0.0
+
+
+def get_emoji_score(emoji: str) -> float:
+    row = emj_scores[emj_scores["Char"] == emoji]
+    if not row.empty:
+        return row["Sentiment score [-1...+1]"].values[0]
+    return 0.0
+
+
 def remove_emoji(line: str):
     emoji_pattern = re.compile("["
                                u"\U0001F600-\U0001F64F"  # emoticons
@@ -65,9 +116,9 @@ def tweet_score(tweet: str):
         return 0
     else:
         threshold = score / word_count
-        if threshold >= 0.00:
+        if threshold > 0.02:
             return 1
-        elif threshold < 0.00:
+        elif threshold < -0.02:
             return -1
         else:
             return 0

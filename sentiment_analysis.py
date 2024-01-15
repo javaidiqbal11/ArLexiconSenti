@@ -1,15 +1,14 @@
-import pandas as pd
-from sklearn import metrics
-import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, auc
-import matplotlib.pyplot as plt
-from sklearn.metrics import precision_recall_curve, average_precision_score
-from helpers import tweet_score
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
-from sklearn.metrics import ConfusionMatrixDisplay
-import matplotlib.pyplot as plt
 from collections import Counter
-from sklearn.metrics import classification_report
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from sklearn.metrics import ConfusionMatrixDisplay, precision_recall_curve, average_precision_score, roc_curve, auc
+from sklearn.metrics import RocCurveDisplay
+from sklearn.metrics import classification_report, multilabel_confusion_matrix
+from sklearn.preprocessing import LabelBinarizer
+
+from helpers import tweet_score, id2label
 
 
 def addlabels(x,y):
@@ -49,7 +48,7 @@ print(classification_report(y_true, y_pred, target_names=["positive", "negative"
 # Confusion matrix
 ConfusionMatrixDisplay.from_predictions(y_true, y_pred, display_labels=["positive", "negative"], cmap=plt.cm.Blues)
 # plt.show()
-plt.savefig("./confusion_matrix.png")
+plt.savefig("graphs/confusion_matrix.png")
 plt.close()
 
 # historgram
@@ -68,7 +67,7 @@ plt.title("Dataset")
 # giving X and Y labels
 plt.xlabel("labels")
 plt.ylabel("no. of tweets")
-plt.savefig("./histogram.png")
+plt.savefig("graphs/histogram.png")
 plt.close()
 
 
@@ -97,7 +96,7 @@ plt.grid(True, linestyle='--', alpha=0.2)  # Add a subtle grid
 
 # Enhanced visual appeal with gridlines and shaded area
 plt.fill_between(fpr, tpr, color='lightblue', alpha=0.2)
-plt.savefig("./roc_curve.png")
+plt.savefig("graphs/roc_curve.png")
 plt.close()
 
 
@@ -123,4 +122,4 @@ plt.grid(True, linestyle='--', alpha=0.2)  # Add a subtle grid
 
 # Enhanced visual appeal with gridlines and shaded area
 plt.fill_between(recall, precision, color='lightgreen', alpha=0.2)
-plt.savefig("./precision_recall.png")
+plt.savefig("graphs/precision_recall.png")
