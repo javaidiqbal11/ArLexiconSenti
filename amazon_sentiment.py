@@ -9,7 +9,7 @@ from sklearn.metrics import RocCurveDisplay
 from sklearn.metrics import classification_report, multilabel_confusion_matrix
 from sklearn.preprocessing import LabelBinarizer
 
-from helpers import tweet_score, id2label
+from helpers import tweet_score, id2label, clean_tweet
 
 df = pd.read_csv("data/preprocessed_data.csv")
 client = boto3.client(service_name='comprehend', region_name='us-east-1')
@@ -23,6 +23,7 @@ def addlabels(x,y):
 
 
 def get_sentiment(tweet):
+    tweet = clean_tweet(tweet)
     response = client.detect_sentiment(Text=tweet, LanguageCode='ar')
     return response['Sentiment']
 
@@ -38,7 +39,7 @@ def map_sentiment(x):
         return 0
 
 
-df["aws_sentiment"] = df['Tweet_cleaned'].apply(lambda x: get_sentiment(x))
+df["aws_sentiment"] = df['Tweet'].apply(lambda x: get_sentiment(x))
 df.to_csv("data/amazon_sentiment.csv")
 #
 # df["aws_labels"] = df["aws_sentiment"].apply(lambda x: map_sentiment(x))
