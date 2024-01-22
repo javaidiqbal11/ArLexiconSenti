@@ -132,7 +132,8 @@ plt.clf()
 ####################################################################################################################
 df = pd.read_csv("data/amazon_sentiment.csv")
 df["aws_labels"] = df["aws_sentiment"].apply(lambda x: map_sentiment(x))
-y_true = df["label"].values.tolist()
+df["your_labels"] = df["Annotation"]
+y_true = df["your_labels"].values.tolist()
 y_pred = df["aws_labels"].values.tolist()
 
 print(classification_report(y_true, y_pred, target_names=["positive", "neutral", "negative"], digits=4))
