@@ -143,29 +143,8 @@ print(multilabel_confusion_matrix(y_true, y_pred))
 ConfusionMatrixDisplay.from_predictions(y_true, y_pred, display_labels=["positive", "neutral", "negative"], cmap=plt.cm.Blues)
 # plt.show()
 plt.savefig("graphs/aws_multilabel_confusion_matrix.png")
-plt.close()
-
 plt.clf()
-# historgram
-counter = Counter(y_true)
-positive = counter[1]
-negative = counter[-1]
-neutral = counter[0]
 
-plt.figure(figsize=(10, 5))
-
-# making the bar chart on the data
-plt.bar(["positive", "neutral", "negative"], [positive, neutral, negative])
-# calling the function to add value labels
-addlabels(["positive", "neutral", "negative"], [positive, neutral, negative])
-# giving title to the plot
-plt.title("Dataset")
-# giving X and Y labels
-plt.xlabel("labels")
-plt.ylabel("no. of tweets")
-plt.savefig("graphs/aws_multi_histogram.png")
-plt.close()
-plt.clf()
 # roc curve
 y_train = df["label"].apply(lambda x: id2label(x)).values.tolist()
 y_pred = df["aws_labels"].apply(lambda x: id2label(x)).values.tolist()
