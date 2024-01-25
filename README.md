@@ -32,16 +32,30 @@ https://kt.ijs.si/data/Emoji_sentiment_ranking/
 ```
 
 
-### Sentiment Analysis
+### Sentiment Analysis (Binary Class Positive and Negative)
 After processing and cleaning tweet sentiment analysis is performed.
 ```shell
 python sentiment_analysis.py
 ```
 
-Here are the precision, recall, f1 and accuracy scores.
+### Multilabel Sentiment Analysis (Positive, Negative and Neutral)
+After processing and cleaning tweet sentiment analysis is performed.
 ```shell
-Precision => 0.84927536
-Recall => 0.87658938
-F1 => 0.86271623
-Accuracy => 0.8573683721794039
+python multilabel_sentiment_analysis.py
 ```
+
+### AWS Comprehend Multilabel Sentiment Analysis (Positive, Negative and Neutral)
+After processing and cleaning tweet sentiment analysis is performed.
+```shell
+python analysis.py
+```
+
+Here are the precision, recall, f1 and accuracy scores. 
+[Multilabel Sentiment Analysis Arsent Dictionary]
+
+![](C:/Users/red/Downloads/image.png)
+
+Here are the precision, recall, f1 and accuracy scores.
+[Multilabel Sentiment Analysis AWS Comprehend]
+
+![](C:/Users/red/Downloads/image1.png)
