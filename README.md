@@ -53,9 +53,11 @@ python analysis.py
 Here are the precision, recall, f1 and accuracy scores. 
 [Multilabel Sentiment Analysis Arsent Dictionary]
 
-![](C:/Users/red/Downloads/image.png)
+![image](https://github.com/javaidiqbal11/ArLexiconSenti/assets/30682562/ce166c22-2151-4567-be51-65000388ebf6)
+
 
 Here are the precision, recall, f1 and accuracy scores.
 [Multilabel Sentiment Analysis AWS Comprehend]
 
-![](C:/Users/red/Downloads/image1.png)
+![image1](https://github.com/javaidiqbal11/ArLexiconSenti/assets/30682562/c328dc5a-9572-4d20-9d59-57add8d15d9a)
+
