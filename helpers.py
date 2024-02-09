@@ -122,3 +122,24 @@ def tweet_score(tweet: str):
             return -1
         else:
             return 0
+
+
+def binary_tweet_score(tweet: str):
+    s, ecount = get_unique_emoji_scores(tweet)
+    word_count = ecount
+    score = s
+    # score = 0
+    # word_count = 0
+    tweet = clean_tweet(tweet)
+    for word in tweet.split():
+        if word in lexicons:
+            score += lexicons[word]
+        word_count += 1
+    if word_count == 0:
+        return 0
+    else:
+        threshold = score / word_count
+        if threshold >= 0.00:
+            return 1
+        elif threshold < 0.0:
+            return -1

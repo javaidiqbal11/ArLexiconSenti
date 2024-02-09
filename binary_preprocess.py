@@ -2,10 +2,10 @@ import pandas as pd
 
 from helpers import get_unique_emoji_scores, clean_tweet, lexicons
 
-df = pd.read_csv("data/clean_final_data.csv")
+df = pd.read_csv("data/binary_data.csv")
 
 
-def score(tweet: str):
+def score_binary(tweet: str):
     # s, ecount = get_unique_emoji_scores(tweet)
     # word_count = ecount
     # score = s
@@ -20,14 +20,12 @@ def score(tweet: str):
         return 0
     else:
         threshold = score / word_count
-        if threshold > 0.05:
+        if threshold >= 0.0:
             return 1
-        elif threshold < -0.02:
+        elif threshold < 0.0:
             return -1
-        else:
-            return 0
 
 
-df["label"] = df["Tweet"].apply(lambda x: score(x))
+df["label"] = df["Tweet"].apply(lambda x: score_binary(x))
 print(df["label"].value_counts())
-df.to_csv("data/preprocessed_data.csv", index=False)
+df.to_csv("data/binary_preprocessed_data.csv", index=False)
