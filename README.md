@@ -2,12 +2,12 @@
 Use python 3.10.10
 
 ### PyCharm
-Install PyCharm to execute the code 
+Install PyCharm to execute the code [PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
 
 ### VS Code
-Visual Studio Code can be used to execute the code
+Visual Studio Code can be used to execute the code [VS Code](https://code.visualstudio.com/download)
 
-install packages
+**Install packages**
 ```shell
 pip install -r requirements.txt
 ```
