@@ -1,6 +1,12 @@
 ### Python
 Use python 3.10.10
 
+### PyCharm
+Install PyCharm to execute the code 
+
+### VS Code
+Visual Studio Code can be used to execute the code
+
 install packages
 ```shell
 pip install -r requirements.txt
