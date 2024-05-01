@@ -25,7 +25,7 @@ iconv -f windows-1256 -t UTF-8 AraSentiLexiconV1.0 > ar_lexicon.txt
 ```
 
 
-### Some helpful material
+### Some Helpful Materials
 Emoji sentiment is taken from here to help improve lexicon based twitter sentiment.
 
 ```text
