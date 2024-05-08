@@ -178,3 +178,4 @@ SVM Sentiment Analysis
    macro avg     0.9504    0.9503    0.9503
 weighted avg     0.9503    0.9503    0.9503
 ```
+### Commands to run the code
