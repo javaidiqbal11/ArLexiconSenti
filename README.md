@@ -1,5 +1,5 @@
 ### Python
-Use Python 3.10.10
+Use Python 3.10
 
 ### PyCharm
 Install PyCharm to execute the code [PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
