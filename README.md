@@ -1,31 +1,36 @@
-### Python
-Use Python 3.10
+# Arbic Tweets Lexicon, AWS Comprehend and Machine Learning Based Sentiment Analysis 
 
-### PyCharm
-Install PyCharm to execute the code [PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
+## Setup
+```bash
+Install Python 3.10
+```
+```bash
+[Install PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
+```
 
-### VS Code
-Visual Studio Code can be used to execute the code [VS Code](https://code.visualstudio.com/download)
+```bash
+[Visual Studio Code](https://code.visualstudio.com/download)
+```
 
-**Install packages**
+## Install Packages
 ```shell
 pip install -r requirements.txt
 ```
 
-### Lexicon
+## Lexicon
 Lexicon taken from here to sentiment
 
 ```text
 https://github.com/nora-twairesh/AraSenti
 ```
 
-# convert encoding
+## Convert Encoding
 ```shell
 iconv -f windows-1256 -t UTF-8 AraSentiLexiconV1.0 > ar_lexicon.txt
 ```
 
 
-### Some Helpful Materials
+## Some Helpful Materials
 Emoji sentiment is taken from here to help improve lexicon based twitter sentiment.
 
 ```text
@@ -38,7 +43,7 @@ https://kt.ijs.si/data/Emoji_sentiment_ranking/
 ```
 
 
-### Sentiment Analysis
+## Sentiment Analysis
 After processing and cleaning tweet sentiment analysis is performed.
 ```shell
 python lexicon_sentiment.py
@@ -57,7 +62,7 @@ Here are the precision, recall, f1 and accuracy scores.
 weighted avg     0.9374    0.9379    0.9331
 ```
 
-### Amazon Comprehend Sentiment
+## Amazon Comprehend Sentiment
 Sentiment analysis performed using Amazon Comprehend service for Arabic language.
 Here are the results.
 ```text
@@ -72,7 +77,7 @@ Here are the results.
 weighted avg     0.5542    0.5190    0.5048
 ```
 
-### Machine Learning
+## Machine Learning
 We used logistic regression to perform sentiment analysis. Here are the results.
 ```text
              precision    recall  f1-score 
@@ -125,7 +130,7 @@ SVM Sentiment Analysis
 weighted avg     0.8950    0.9062    0.8940
 ```
 
-### Binary Sentiment Analysis
+## Binary Sentiment Analysis
 Here are score for Binary Sentiment Analysis...
 ```text
 Lexicon Sentiment Analysis
@@ -178,4 +183,4 @@ SVM Sentiment Analysis
    macro avg     0.9504    0.9503    0.9503
 weighted avg     0.9503    0.9503    0.9503
 ```
-### Commands to run the code
+
