@@ -4,13 +4,13 @@
 ```bash
 Install Python 3.10
 ```
-```bash
-[Install PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
-```
 
-```bash
+[Install PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
+
+
+
 [Visual Studio Code](https://code.visualstudio.com/download)
-```
+
 
 ## Install Packages
 ```shell
