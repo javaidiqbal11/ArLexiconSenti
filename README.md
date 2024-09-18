@@ -44,7 +44,7 @@ https://kt.ijs.si/data/Emoji_sentiment_ranking/
 
 
 ## Sentiment Analysis
-After processing and cleaning tweet sentiment analysis is performed.
+After pre-processing and cleaning tweet sentiment analysis is performed.
 ```shell
 python lexicon_sentiment.py
 ```
