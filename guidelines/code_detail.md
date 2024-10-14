@@ -1,164 +1,207 @@
-Detailed understanding of each file, Focuesd over the primary functions, core operations, and purpose in the overall sentiment analysis project.
+This guide organizes the code into three main sections based on the approach used: Lexicon-based, Machine Learning-based, and Amazon Comprehend. Each section provides a detailed explanation of each file, its purpose, and how it integrates with other components of the project.
 
 ---
 
-### 1. **amazon_sentiment.py**
-   - **Purpose**: This script interfaces with AWS Comprehend to perform sentiment analysis on Arabic tweets. It uses Amazon’s NLP service to analyze the sentiment and save results.
-   - **Core Steps**:
-     1. **Data Loading**: Reads tweets from `data/preprocessed_data.csv`.
-     2. **AWS Client Initialization**: Establishes a connection with AWS Comprehend using `boto3`.
-     3. **Sentiment Detection**: Iterates over tweets, cleaning each using `clean_tweet` and analyzing sentiment through `detect_sentiment`.
-     4. **Saving Results**: The sentiment results are stored in `data/amazon_sentiment.csv`.
+## Project Structure and Running the Code
+
+### Directory Structure Overview
+
+```
+ArLexiconSenti/
+│
+├── data/                           # Stores datasets and processed data files
+├── graphs/                         # Stores output graphs from analysis scripts
+├── helpers.py                      # Helper functions for text processing and scoring
+├── amazon_sentiment.py             # Amazon Comprehend sentiment analysis script
+├── analysis.py                     # General analysis for ML-based approaches
+├── binary_analysis.py              # Analysis script specifically for binary sentiment analysis
+├── preprocess.py                   # General preprocessing for lexicon and ML-based approaches
+├── lexicon_sentiment.py            # Lexicon-based sentiment analysis script
+├── machine_learning_models/        # Folder for ML-based sentiment analysis models
+│   ├── logistic_regression_sentiment.py
+│   ├── random_forest_classifier.py
+│   ├── svm_sentiment.py
+│   ├── decision_tree_sentiment.py
+├── requirements.txt                # Dependencies for the project
+└── README.md                       # Instructions for setting up and running the project
+```
+
+### Running the Code
+
+1. **Install Dependencies**: First, ensure all required packages are installed.
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Preprocess Data**: Start by running `preprocess.py` to clean the tweets, creating a file like `data/preprocessed_data.csv` which will be used across all approaches.
+   ```bash
+   python preprocess.py
+   ```
+
+3. **Choose an Approach**:
+   - **Lexicon-Based**: Run `lexicon_sentiment.py` to apply lexicon-based scoring.
+   - **Machine Learning-Based**: Choose one of the ML models in `machine_learning_models/` and run the corresponding file (e.g., `random_forest_classifier.py`).
+   - **Amazon Comprehend-Based**: Run `amazon_sentiment.py` to use AWS Comprehend for sentiment analysis.
+
+4. **Analysis**: Use `analysis.py` or `binary_analysis.py` to evaluate the model results, generate metrics, and output visualizations.
 
 ---
 
-### 2. **analysis.py**
-   - **Purpose**: This file performs an extensive analysis of the model predictions compared to ground truth labels, providing evaluation metrics and visualizations.
-   - **Core Steps**:
-     1. **Load Data**: Reads data from `data/lexicon_sentiment.csv`.
-     2. **Mapping Sentiments**: Converts sentiment labels to numerical values for analysis.
-     3. **Evaluation Metrics**: Generates classification reports, multilabel confusion matrices, and ROC curves for various classes (positive, neutral, negative).
-     4. **Visualization**: Saves confusion matrices and ROC curves in `graphs/` for visual insight into model performance.
+## Section 1: Lexicon-Based Approach
+
+The lexicon-based approach uses predefined word or emoji sentiment scores to evaluate tweets.
+
+### Relevant Files
+
+1. **`preprocess.py`**
+   - **Purpose**: This file cleans and processes raw text data, making it suitable for lexicon-based analysis. It normalizes text, removes special characters, and assigns initial sentiment labels based on a scoring function.
+   - **Functions**:
+     - `clean_tweet`: Removes emojis and unwanted characters.
+     - `score`: Scores each tweet by averaging word polarities from the lexicon, assigning labels based on threshold values.
+   - **Output**: Saves processed tweets with labels to `data/preprocessed_data.csv`.
+   - **Run**:
+     ```bash
+     python preprocess.py
+     ```
+
+2. **`lexicon_sentiment.py`**
+   - **Purpose**: Calculates sentiment scores for each tweet using lexicon-based word polarity scores.
+   - **Functions**:
+     - `tweet_score`: Computes a sentiment score for each tweet by summing word polarities.
+   - **Output**: Generates `data/lexicon_sentiment.csv`, containing tweets with lexicon-based sentiment scores.
+   - **Run**:
+     ```bash
+     python lexicon_sentiment.py
+     ```
+
+3. **`helpers.py`**
+   - **Purpose**: Provides utility functions to support lexicon-based sentiment scoring.
+   - **Functions**:
+     - `get_word_score`: Retrieves the sentiment polarity score for a given word from the lexicon.
+     - `get_emoji_score`: Retrieves a sentiment score for emojis.
+     - `pad_zeros`: Pads shorter feature vectors to a standard length for compatibility with ML models.
+   - **Integration**: Used across multiple files for standard functions.
+
+4. **`binary_lexicon_sentiment.py`**
+   - **Purpose**: A simplified lexicon-based sentiment analysis approach for binary classification.
+   - **Functions**:
+     - `binary_tweet_score`: Similar to `tweet_score` but tailored for binary labels (positive/negative).
+   - **Output**: Generates `data/binary_lexicon_sentiment.csv`, used in binary classification analysis.
+   - **Run**:
+     ```bash
+     python binary_lexicon_sentiment.py
+     ```
 
 ---
 
-### 3. **binary_analysis.py**
-   - **Purpose**: This script provides analysis for binary sentiment classifications, producing metrics and visualizations for binary class labels.
-   - **Core Steps**:
-     1. **Data Preparation**: Loads binary classification results from `data/binary_lexicon_sentiment.csv`.
-     2. **Metrics Calculation**: Produces a classification report and a confusion matrix for binary labels.
-     3. **Precision-Recall Curve**: Generates and saves a precision-recall curve to visualize the performance of binary sentiment classification.
+## Section 2: Machine Learning-Based Approach
+
+The machine learning-based approach trains classifiers on sentiment-labeled tweets, using lexicon scores as features.
+
+### Relevant Files
+
+1. **`logistic_regression_sentiment.py`**
+   - **Purpose**: Trains and evaluates a logistic regression model for sentiment classification.
+   - **Functions**:
+     - `lexicon_sentiment_analysis`: Converts each tweet to a lexicon-based feature vector.
+     - `pad_zeros`: Pads sequences for uniform feature length.
+   - **Output**: Saves predictions to `data/logistic_regression.csv`.
+   - **Run**:
+     ```bash
+     python machine_learning_models/logistic_regression_sentiment.py
+     ```
+
+2. **`random_forest_classifier.py`**
+   - **Purpose**: Uses a random forest model to classify tweet sentiment.
+   - **Functions**:
+     - Trains a random forest classifier on lexicon-based features.
+     - Evaluates the model on test data and saves predictions.
+   - **Output**: Results saved to `data/random_forest_sentiment.csv`.
+   - **Run**:
+     ```bash
+     python machine_learning_models/random_forest_classifier.py
+     ```
+
+3. **`svm_sentiment.py`**
+   - **Purpose**: Implements Support Vector Machine (SVM) for multiclass sentiment classification.
+   - **Functions**:
+     - Feature extraction through lexicon-based word scores.
+   - **Output**: Saves predictions to `data/svm_sentiment.csv`.
+   - **Run**:
+     ```bash
+     python machine_learning_models/svm_sentiment.py
+     ```
+
+4. **`decision_tree_sentiment.py`**
+   - **Purpose**: Classifies tweet sentiment using a decision tree model.
+   - **Functions**:
+     - Generates lexicon-based feature vectors and trains the decision tree.
+   - **Output**: Saves predictions in `data/decision_tree_sentiment.csv`.
+   - **Run**:
+     ```bash
+     python machine_learning_models/decision_tree_sentiment.py
+     ```
+
+5. **`binary_*_sentiment.py` (e.g., `binary_logistic_regression_sentiment.py`, `binary_random_forest_classifier.py`)**
+   - **Purpose**: Binary classifiers for sentiment using various ML models (logistic regression, decision tree, random forest, SVM).
+   - **Key Steps**:
+     - Train-test split and lexicon feature generation.
+     - Binary sentiment classification using the specified model.
+     - **Output**: Predictions saved to the corresponding binary sentiment CSV file, e.g., `data/binary_random_forest_sentiment.csv`.
 
 ---
 
-### 4. **binary_decision_tree.py**
-   - **Purpose**: Implements a binary decision tree classifier trained on lexicon-based sentiment features.
-   - **Core Steps**:
-     1. **Load and Split Data**: Loads data from `data/binary_preprocessed_data.csv` and splits into train/test sets.
-     2. **Feature Engineering**: Calculates sentiment polarities for each word in a tweet using `lexicon_sentiment_analysis`.
-     3. **Model Training**: Fits a decision tree classifier on the training set.
-     4. **Prediction and Output**: Predicts binary sentiment on test data and saves results to `data/binary_decision_tree_sentiment.csv`.
+## Section 3: Amazon Comprehend Approach
+
+This approach leverages Amazon Comprehend, an NLP service by AWS, for sentiment analysis.
+
+### Relevant Files
+
+1. **`amazon_sentiment.py`**
+   - **Purpose**: Performs sentiment analysis on tweets using Amazon Comprehend.
+   - **Functions**:
+     - `get_sentiment`: Sends each tweet to AWS Comprehend for analysis and retrieves sentiment labels.
+   - **AWS Requirements**: Ensure `boto3` is configured with AWS credentials to access Comprehend.
+   - **Output**: Saves sentiment-labeled data in `data/amazon_sentiment.csv`.
+   - **Run**:
+     ```bash
+     python amazon_sentiment.py
+     ```
 
 ---
 
-### 5. **binary_logistic_regression_sentiment.py**
-   - **Purpose**: Trains and evaluates a binary logistic regression model for sentiment classification.
-   - **Core Steps**:
-     1. **Data Preparation**: Loads tweets and labels, splits them into training and testing sets.
-     2. **Feature Engineering**: Converts tweets into lexicon-based feature vectors.
-     3. **Model Training and Evaluation**: Trains logistic regression and evaluates its accuracy.
-     4. **Output Results**: Saves predictions to `data/binary_logistic_regression.csv`.
+## Analysis and Visualization
+
+After generating sentiment predictions, these scripts provide evaluations and visualizations.
+
+### Relevant Files
+
+1. **`analysis.py`**
+   - **Purpose**: Analyzes the performance of multiclass ML-based sentiment models.
+   - **Functions**:
+     - Generates classification reports, confusion matrices, and ROC curves for each class.
+   - **Output**: Saves analysis plots to `graphs/`.
+
+2. **`binary_analysis.py`**
+   - **Purpose**: Evaluates binary sentiment classification results.
+   - **Functions**:
+     - Generates binary confusion matrices, precision-recall curves, and ROC curves.
+   - **Output**: Saves binary analysis visualizations to `binary_graphs/`.
 
 ---
 
-### 6. **binary_preprocess.py**
-   - **Purpose**: Preprocesses tweets for binary sentiment classification by cleaning and scoring words in the tweet.
-   - **Core Steps**:
-     1. **Data Cleaning**: Removes unwanted characters and emojis from tweets using `clean_tweet`.
-     2. **Binary Scoring**: Calculates average sentiment scores using `score_binary`.
-     3. **Labeling**: Assigns binary sentiment labels based on score thresholds and outputs to `data/binary_preprocessed_data.csv`.
+### Running an Analysis
+
+After running a classification script, use `analysis.py` for multiclass results or `binary_analysis.py` for binary results to generate visualizations:
+
+```bash
+# For multiclass analysis
+python analysis.py
+
+# For binary analysis
+python binary_analysis.py
+```
 
 ---
 
-### 7. **binary_random_forest_classifier.py**
-   - **Purpose**: Uses a random forest model for binary sentiment classification on lexicon-based features.
-   - **Core Steps**:
-     1. **Data Splitting**: Splits data from `data/binary_preprocessed_data.csv` into training and testing sets.
-     2. **Lexicon Feature Engineering**: Generates features using `lexicon_sentiment_analysis`.
-     3. **Random Forest Training**: Fits a random forest model and makes predictions.
-     4. **Evaluation and Output**: Saves results to `data/binary_random_forest_sentiment.csv`.
-
----
-
-### 8. **binary_svm_sentiment.py**
-   - **Purpose**: Trains a binary Support Vector Machine (SVM) model for sentiment classification.
-   - **Core Steps**:
-     1. **Data Loading and Splitting**: Loads binary sentiment data, splits it into training and test sets.
-     2. **Lexicon-Based Feature Generation**: Constructs feature vectors based on word sentiment scores.
-     3. **Model Training and Prediction**: Trains SVM model and evaluates on test data.
-     4. **Save Results**: Outputs predictions to `data/binary_svm_sentiment.csv`.
-
----
-
-### 9. **decision_tree_sentiment.py**
-   - **Purpose**: Implements a decision tree for multiclass sentiment classification.
-   - **Core Steps**:
-     1. **Data Splitting**: Splits the cleaned data into training and testing sets.
-     2. **Feature Engineering**: Constructs feature vectors based on word-level sentiment scores.
-     3. **Training**: Trains a decision tree on lexicon-based features.
-     4. **Output and Evaluation**: Saves predictions and outputs accuracy score.
-
----
-
-### 10. **helpers.py**
-   - **Purpose**: Provides various utility functions to support data preprocessing and scoring.
-   - **Core Functions**:
-     - **clean_tweet**: Cleans and normalizes text, removing hashtags, mentions, and URLs.
-     - **get_word_score**: Retrieves sentiment score for a word based on lexicons.
-     - **pad_zeros**: Pads sequences to a maximum length, making them compatible with model input requirements.
-     - **get_emoji_score**: Retrieves sentiment score for emojis.
-     - **label2id and id2label**: Maps sentiment labels to integer IDs and vice versa.
-
----
-
-### 11. **lexicon_sentiment.py**
-   - **Purpose**: Computes tweet sentiment scores using a lexicon-based approach, applying scores based on word polarities.
-   - **Core Steps**:
-     1. **Data Loading**: Loads preprocessed tweets.
-     2. **Sentiment Scoring**: Scores each tweet based on lexicon sentiment values.
-     3. **Saving Results**: Saves results to `data/lexicon_sentiment.csv`.
-
----
-
-### 12. **logistic_regression_sentiment.py**
-   - **Purpose**: Implements a logistic regression classifier for multiclass sentiment classification.
-   - **Core Steps**:
-     1. **Feature Creation**: Uses lexicon-based sentiment polarities as feature vectors.
-     2. **Training and Prediction**: Trains logistic regression, predicts on test data, and saves results.
-
----
-
-### 13. **preprocess.py**
-   - **Purpose**: Cleans tweets, removes emojis, and calculates average sentiment scores, labeling them based on score thresholds.
-   - **Core Steps**:
-     1. **Cleaning**: Standardizes and removes irrelevant text features.
-     2. **Scoring**: Scores words based on their polarity in the lexicon.
-     3. **Label Assignment**: Assigns sentiment labels and outputs to `data/preprocessed_data.csv`.
-
----
-
-### 14. **random_forest_classifier.py**
-   - **Purpose**: Trains a random forest model on lexicon-based features for multiclass sentiment classification.
-   - **Core Steps**:
-     1. **Data Splitting**: Splits tweets and labels into train/test sets.
-     2. **Feature Extraction**: Creates feature vectors based on lexicon word scores.
-     3. **Training and Prediction**: Fits the model, predicts on test data, and saves results.
-
----
-
-### 15. **svm_sentiment.py**
-   - **Purpose**: Implements SVM for multiclass sentiment classification.
-   - **Core Steps**:
-     1. **Feature Engineering**: Converts tweets into lexicon-based feature vectors.
-     2. **Model Training and Prediction**: Trains an SVM model and outputs predictions to `data/svm_sentiment.csv`.
-
----
-
-### 16. **requirements.txt**
-   - **Purpose**: Lists all required dependencies, including libraries for NLP (like `scikit-learn` for classification, `pandas` for data handling, `matplotlib` for visualization, and `emoji` for emoji processing).
-
----
-
-### Data Files in **`data/`**
-   - **arabic_tweets.csv**: Original dataset of Arabic tweets for sentiment analysis.
-   - **preprocessed_data.csv**: Processed data with cleaned tweets and initial sentiment labeling.
-   - **lexicon_sentiment.csv**: Tweets labeled with lexicon-based sentiment analysis.
-   - **binary_preprocessed_data.csv**: Binary version of preprocessed data.
-   - **emojis_sentiment.csv**: Contains emojis and their sentiment scores for analysis.
-
----
-
-### Output Visualization Folder **`graphs/`**
-   - **Purpose**: Stores plots generated during the analysis (ROC curves, confusion matrices, etc.), providing visual summaries of model performance. 
-
-This detailed explanation provides a file-by-file breakdown of the project structure, highlighting each file’s role and key operations to help with both understanding and hands-on implementation.
+This guide should provide a clear roadmap of the structure, purpose, and execution of each file within the project, ensuring comprehensive understanding and usability.
