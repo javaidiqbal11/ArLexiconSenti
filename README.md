@@ -169,7 +169,7 @@ Decision Tree Sentiment Analysis
    macro avg     0.8419    0.8419    0.8419
 weighted avg     0.8422    0.8422    0.8422
 
-**SVM Sentiment Analysis**
+SVM Sentiment Analysis
               precision    recall  f1-score
 
     positive     0.9529    0.9467    0.9498
