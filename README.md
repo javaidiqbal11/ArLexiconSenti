@@ -5,6 +5,7 @@
 Install Python 3.10
 ```
 [Install PyCharm](https://www.jetbrains.com/pycharm/download/?section=windows)
+
 [Visual Studio Code](https://code.visualstudio.com/download)
 
 ## Install Packages
