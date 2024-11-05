@@ -1,4 +1,4 @@
-# Arbic Tweets Lexicon, AWS Comprehend and Machine Learning Based Sentiment Analysis 
+# Arbic Tweets Lexicon, AWS Comprehend and Machine Learning Sentiment Analysis 
 
 ## Setup
 ```bash
